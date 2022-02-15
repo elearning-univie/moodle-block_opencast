@@ -1212,6 +1212,10 @@ class apibridge {
                 $event->add_meta_data($metadata->id, $metadata->value);
             }
         }
+        $event->add_meta_data('location', 'Moodle upload');
+        $uploaduser = $DB->get_record('user', array('id' => $job->userid));
+        $event->add_meta_data('creator', array($uploaduser->firstname.' '.$uploaduser->lastname));
+        $event->add_meta_data('source', $uploaduser->username);
 
         $acl = $event->get_json_acl();
         $metadata = $event->get_meta_data();
