@@ -53,11 +53,11 @@ class ltimodulemanager {
         global $CFG;
 
         // Require LTI library.
-        require_once($CFG->dirroot . '/mod/lti/locallib.php');
+        require_once($CFG->dirroot . '/mod/streamlti/locallib.php');
 
         // Get configured tools and filter them for tools which are configured by the admin.
-        $types = \lti_filter_get_types(get_site()->id);
-        $configuredtools = lti_filter_tool_types($types, LTI_TOOL_STATE_CONFIGURED);
+        $types = \streamlti_filter_get_types(get_site()->id);
+        $configuredtools = streamlti_filter_tool_types($types, STREAMLTI_TOOL_STATE_CONFIGURED);
 
         // Initialize array of tool to be returned.
         $tools = [];
@@ -291,7 +291,7 @@ class ltimodulemanager {
         }
 
         // Get the id of the installed LTI plugin.
-        $pluginid = $DB->get_field('modules', 'id', ['name' => 'lti']);
+        $pluginid = $DB->get_field('modules', 'id', ['name' => 'streamlti']);
 
         // If the LTI plugin is not found, something is wrong.
         if (!$pluginid) {
@@ -360,7 +360,9 @@ class ltimodulemanager {
         }
 
         // Get the id of the installed LTI plugin.
-        $pluginid = $DB->get_field('modules', 'id', ['name' => 'lti']);
+
+        $pluginid = $DB->get_field('modules', 'id', ['name' => 'streamlti']);
+
 
         // If the LTI plugin is not found, something is wrong.
         if (!$pluginid) {
@@ -424,7 +426,7 @@ class ltimodulemanager {
         $moduleinfo = new stdClass();
 
         // Populate the modinfo object with standard parameters.
-        $moduleinfo->modulename = 'lti';
+        $moduleinfo->modulename = 'streamlti';
         $moduleinfo->module = $pluginid;
 
         $moduleinfo->name = $title;
@@ -482,7 +484,7 @@ class ltimodulemanager {
         // If there is a LTI series module found.
         if ($moduleid) {
             // Check if the LTI series module with the given id really exists.
-            $cm = get_coursemodule_from_id('lti', $moduleid, $courseid);
+            $cm = get_coursemodule_from_id('streamlti', $moduleid, $courseid);
 
             // If the course module does not exist or is scheduled to be deleted before we return it.
             // Note: This plugin could achieve the same goal by listening to the course_module_deleted event.
@@ -611,7 +613,7 @@ class ltimodulemanager {
             // but we want to keep this code as backwards-compatible as possible.
 
             // Gather more information about this module so that we can update the module info in the end.
-            $seriesmoduleobject = get_coursemodule_from_id('lti', $seriesmoduleid, $modulecourseid);
+            $seriesmoduleobject = get_coursemodule_from_id('streamlti', $seriesmoduleid, $modulecourseid);
             $courseobject = get_course($modulecourseid);
             list($unusedcm, $unusedcontext, $unusedmodule, $seriesmoduledata, $unusedcw) =
                 get_moduleinfo_data($seriesmoduleobject, $courseobject);
@@ -702,7 +704,7 @@ class ltimodulemanager {
         // If there is a LTI episode module found.
         if ($moduleid) {
             // Check if the LTI episode module with the given id really exists.
-            $cm = get_coursemodule_from_id('lti', $moduleid, $courseid);
+            $cm = get_coursemodule_from_id('streamlti', $moduleid, $courseid);
 
             // If the course module does not exist or is scheduled to be deleted before we return it.
             // Note: This plugin could achieve the same goal by listening to the course_module_deleted event.
@@ -812,7 +814,7 @@ class ltimodulemanager {
         $modules = [];
 
         // Get the LTI episode module(s) which point to the episode.
-        $sql = 'SELECT cm.id AS cmid FROM {lti} l ' .
+        $sql = 'SELECT cm.id AS cmid FROM {streamlti} l ' .
             'JOIN {course_modules} cm ' .
             'ON l.id = cm.instance ' .
             'WHERE l.typeid = :toolid ' .
@@ -873,7 +875,7 @@ class ltimodulemanager {
             $episodemoduleid = reset($episodemodules);
 
             // Gather more information about this module so that we can update the module info in the end.
-            $episodemoduleobject = get_coursemodule_from_id('lti', $episodemoduleid, $modulecourseid);
+            $episodemoduleobject = get_coursemodule_from_id('streamlti', $episodemoduleid, $modulecourseid);
             $courseobject = get_course($modulecourseid);
             list($unusedcm, $unusedcontext, $unusedmodule, $episodemoduledata, $unusedcw) =
                 get_moduleinfo_data($episodemoduleobject, $courseobject);

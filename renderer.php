@@ -150,7 +150,7 @@ class block_opencast_renderer extends plugin_renderer_base {
 
             $url = null;
             if ($moduleid) {
-                $url = new moodle_url('/mod/lti/view.php', ['id' => $moduleid]);
+                $url = new moodle_url('/mod/streamlti/view.php', array('id' => $moduleid));
                 $text = get_string('addlti_viewbuttontitle', 'block_opencast');
                 $icon = $this->output->pix_icon('play', $text, 'block_opencast');
             } else if (has_capability('block/opencast:addlti', $coursecontext)) {
@@ -225,7 +225,7 @@ class block_opencast_renderer extends plugin_renderer_base {
             $moduleid = ltimodulemanager::get_module_for_series($ocinstanceid, $courseid, $seriesid);
 
             if ($moduleid) {
-                $url = new moodle_url('/mod/lti/view.php', ['id' => $moduleid]);
+                $url = new moodle_url('/mod/streamlti/view.php', array('id' => $moduleid));
                 $text = get_string('addlti_viewbuttontitle', 'block_opencast');
             } else if (has_capability('block/opencast:addlti', $coursecontext)) {
                 $url = new moodle_url('/blocks/opencast/addlti.php',
@@ -920,7 +920,7 @@ class block_opencast_renderer extends plugin_renderer_base {
      */
     public function render_view_lti_episode_icon($moduleid) {
 
-        $url = new moodle_url('/mod/lti/view.php', ['id' => $moduleid]);
+        $url = new \moodle_url('/mod/streamlti/view.php', array('id' => $moduleid));
         $text = get_string('addltiepisode_viewicontitle', 'block_opencast');
 
         $icon = $this->output->pix_icon('play', $text, 'block_opencast');
